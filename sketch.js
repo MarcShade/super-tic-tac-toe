@@ -1,4 +1,22 @@
 const board = new Position();
+// Elendig fucking løsning men det er sent og jeg er ligeglad
+const SCENES = ["main", "game", "restart"];
+
+let singleplayerButton;
+let multiplayerButton;
+
+let scene = SCENES[0];
+
+let ai;
+let sceneChange;
+let aiMove;
+
+function includes(arr, values) {
+  for (element of arr) {
+    if (element.toString() == values.toString()) return true;
+  }
+  return false;
+}
 
 function drawCircle(i ,j) {
   fill("white");
@@ -68,7 +86,10 @@ function drawBoard(board) {
 
 let n = 0;
 function mousePressed() {
+  if (Date.now() - sceneChange < 100) return;
+  if (scene != SCENES[1]) return;
   if (mouseX > 1000 || mouseY > 1000) return;
+
   let xPos = Math.floor((mouseX - 50) / 100);
   let yPos = Math.floor((mouseY - 50) / 100);
   let xPosDiv = Math.floor(xPos / 3);
@@ -80,17 +101,40 @@ function mousePressed() {
 
   if (board.isOver) return;
 
-  if (board.subBoards[coordinateX][coordinateY] == 0) {
+  if (includes(board.legalMoves, [coordinateX, coordinateY])) {
     if (board.legalBoard != 9) {
       if (clickedBoard != board.legalBoard) return; 
     }
     board.move(coordinateX, coordinateY);
     background(220);
+    if (ai) {
+      console.log("ai");
+      aiMove = getAiMove(board);
+      console.log(...aiMove);
+      board.move(...aiMove);
+    }
     drawBoard(board);
   }
 }
 
 function setup() {
+  singleplayerButton = select("#singleplayer");
+  multiplayerButton = select("#multiplayer");
+
+  singleplayerButton.mousePressed(() => {
+    ai = false;
+    scene = SCENES[1];
+    hideUIElements([singleplayerButton, multiplayerButton]);
+    sceneChange = Date.now();
+  })
+
+  multiplayerButton.mousePressed(() => {
+    ai = true;
+    scene = SCENES[1];
+    hideUIElements([singleplayerButton, multiplayerButton]);
+    sceneChange = Date.now();
+  })
+
   createCanvas(1000, 1000);
   background(220);
   drawBoard(board);
@@ -98,4 +142,20 @@ function setup() {
 
 function draw() {
   
+}
+
+function hideUIElements(elements) {
+  for (const element of elements) {
+    element.hide();
+  }
+}
+
+function showUIElements(elements) {
+  for (const element of elements) {
+    element.show();
+  }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

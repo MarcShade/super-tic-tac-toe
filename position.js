@@ -29,19 +29,60 @@ class Position {
 
         this.legalBoard = 9;
         this.isOver = false;
+        this.legalMoves = []
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                this.legalMoves.push([i, j]);
+            }
+        }
+
+        this.prevMainBoard = [];
+        this.prevSubBoards = [];
+        this.prevLegalMoves = [];
+        this.prevLegalBoard = 0;
+        this.prevIsOver = false;
     }
 
-    move(i, j) {
-        this.subBoards[i][j] = this.turn+1;
-        if (this.mainBoard[j] == 0) this.legalBoard = j;
-        else this.legalBoard = 9;
+    move(x, y) {
+        this.prevMainBoard = this.mainBoard;
+        this.prevSubBoards = this.subBoards;
+        this.prevLegalMoves = this.legalMoves;
+        this.prevLegalBoard = this.legalBoard;
+        this.prevIsOver = this.isOver;
+
+        this.subBoards[x][y] = this.turn+1;
         
-        if (this.checkWin(this.subBoards[i])) {
-            this.mainBoard[i] = this.turn + 1;
+        if (this.checkWin(this.subBoards[x])) {
+            this.mainBoard[x] = this.turn + 1;
             this.checkMainBoard();
         }
+        if (this.mainBoard[y] == 0) this.legalBoard = y;
+        else this.legalBoard = 9;
         // Stupid fucking conversion from boolean to integer.
         this.turn = +(!this.turn);
+        
+        this.legalMoves = [];
+        if (this.legalBoard != 9) {
+            for (let i = 0; i < 9; i++) {
+                if (this.subBoards[this.legalBoard][i] == 0) this.legalMoves.push([this.legalBoard, i]);
+            }
+        } else {
+            for (let j = 0; j < 9; j++) {
+                if (this.mainBoard[j] != 0) continue;
+                for (let i = 0; i < 9; i++) {
+                    if (this.subBoards[j][i] == 0) this.legalMoves.push([j, i]);
+                }
+            }
+        }
+    }
+
+    unmakeMove() {
+        this.mainBoard = this.prevMainBoard;
+        this.subBoards = this.prevSubBoards;
+        this.legalMoves = this.prevLegalMoves;
+        this.legalBoard = this.prevLegalBoard;
+        this.turn = +(!this.turn);
+        this.isOver = this.prevIsOver;
     }
 
     checkWin(board) {
@@ -60,6 +101,7 @@ class Position {
         if (this.checkWin(this.mainBoard)) {
             this.isOver = true;
             this.legalBoard = 9;
+            console.log(this.turn + " won");
         }
     }
 };
