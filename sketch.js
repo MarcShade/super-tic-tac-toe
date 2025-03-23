@@ -78,7 +78,7 @@ function drawBoard(board) {
     }
   }
 
-  if (board.legalBoard == 9) return;
+  if (board.legalBoard == 9 || board.isOver) return;
   let lBoard = board.legalBoard;
   fill(255, 255, 0, 50);
   rect(50 + 300 * (lBoard % 3), 50 + 300 * Math.floor(lBoard / 3), 300, 300);
@@ -108,8 +108,8 @@ function mousePressed() {
     board.move(coordinateX, coordinateY);
     background(220);
     if (ai) {
-      console.log("ai");
-      aiMove = getAiMove(board);
+      if (board.isOver) return;
+      aiMove = board.getAiMove(board);
       console.log(...aiMove);
       board.move(...aiMove);
     }
@@ -154,8 +154,4 @@ function showUIElements(elements) {
   for (const element of elements) {
     element.show();
   }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }

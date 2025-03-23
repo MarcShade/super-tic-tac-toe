@@ -29,27 +29,16 @@ class Position {
 
         this.legalBoard = 9;
         this.isOver = false;
-        this.legalMoves = []
+        this.legalMoves = [];
         for (let i = 0; i < 9; i++) {
             for (let j = 0; j < 9; j++) {
                 this.legalMoves.push([i, j]);
             }
         }
-
-        this.prevMainBoard = [];
-        this.prevSubBoards = [];
-        this.prevLegalMoves = [];
-        this.prevLegalBoard = 0;
-        this.prevIsOver = false;
     }
 
     move(x, y) {
-        this.prevMainBoard = this.mainBoard;
-        this.prevSubBoards = this.subBoards;
-        this.prevLegalMoves = this.legalMoves;
-        this.prevLegalBoard = this.legalBoard;
-        this.prevIsOver = this.isOver;
-
+        console.log(this.subBoards);
         this.subBoards[x][y] = this.turn+1;
         
         if (this.checkWin(this.subBoards[x])) {
@@ -76,15 +65,6 @@ class Position {
         }
     }
 
-    unmakeMove() {
-        this.mainBoard = this.prevMainBoard;
-        this.subBoards = this.prevSubBoards;
-        this.legalMoves = this.prevLegalMoves;
-        this.legalBoard = this.prevLegalBoard;
-        this.turn = +(!this.turn);
-        this.isOver = this.prevIsOver;
-    }
-
     checkWin(board) {
         for (const condition of WINNING_CONDITIONS) {
             if (board[condition[0]] == 0) {
@@ -103,5 +83,25 @@ class Position {
             this.legalBoard = 9;
             console.log(this.turn + " won");
         }
+    }
+
+    getAiMove() {
+        let bestMove;
+        for (const move of this.legalMoves) {
+            for (let i = 1; i <= 2; i++) {
+                // Check if opponent can win on a certain square. If yes, place that bitch right there
+                this.subBoards[move[0]][move[1]] = i;
+                console.log("Checking board: " + move[0] + " placing at " + move[1]);
+                if (this.checkWin(this.subBoards[move[0]])) {
+                    console.log("positive");
+                    return move;
+                } else {
+                    console.log("negative");
+                }
+    
+                this.subBoards[move[0]][move[1]] = 0;
+            }
+        }
+        return this.legalMoves[Math.floor(Math.random() * this.legalMoves.length)];
     }
 };
