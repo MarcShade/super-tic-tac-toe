@@ -47,7 +47,7 @@ class Position {
         }
         if (this.mainBoard[y] == 0) this.legalBoard = y;
         else this.legalBoard = 9;
-        // Stupid fucking conversion from boolean to integer.
+        // Stupid conversion from boolean to integer.
         this.turn = +(!this.turn);
         
         this.legalMoves = [];
@@ -86,19 +86,11 @@ class Position {
     }
 
     getAiMove() {
-        let bestMove;
         for (const move of this.legalMoves) {
             for (let i = 1; i <= 2; i++) {
-                // Check if opponent can win on a certain square. If yes, place that bitch right there
+                // Check if someone can win on a certain square. If yes, make that move
                 this.subBoards[move[0]][move[1]] = i;
-                console.log("Checking board: " + move[0] + " placing at " + move[1]);
-                if (this.checkWin(this.subBoards[move[0]])) {
-                    console.log("positive");
-                    return move;
-                } else {
-                    console.log("negative");
-                }
-    
+                if (this.checkWin(this.subBoards[move[0]])) return move;    
                 this.subBoards[move[0]][move[1]] = 0;
             }
         }

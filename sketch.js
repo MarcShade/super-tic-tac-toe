@@ -122,14 +122,14 @@ function setup() {
   multiplayerButton = select("#multiplayer");
 
   singleplayerButton.mousePressed(() => {
-    ai = false;
+    ai = true;
     scene = SCENES[1];
     hideUIElements([singleplayerButton, multiplayerButton]);
     sceneChange = Date.now();
   })
 
   multiplayerButton.mousePressed(() => {
-    ai = true;
+    ai = false;
     scene = SCENES[1];
     hideUIElements([singleplayerButton, multiplayerButton]);
     sceneChange = Date.now();
