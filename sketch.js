@@ -2,14 +2,15 @@ const board = new Position();
 // Elendig fucking løsning men det er sent og jeg er ligeglad
 const SCENES = ["main", "game", "restart"];
 
-let singleplayerButton;
-let multiplayerButton;
+let singleplayerButton; let multiplayerButton;
 
 let scene = SCENES[0];
 
 let ai;
 let sceneChange;
 let aiMove;
+
+let mainMenu; let gameScreen;
 
 function includes(arr, values) {
   for (element of arr) {
@@ -120,22 +121,27 @@ function mousePressed() {
 function setup() {
   singleplayerButton = select("#singleplayer");
   multiplayerButton = select("#multiplayer");
+  mainMenu = select("#main-menu");
+  gameScreen = select("#game-screen");
 
   singleplayerButton.mousePressed(() => {
     ai = true;
     scene = SCENES[1];
-    hideUIElements([singleplayerButton, multiplayerButton]);
+    hideUIElements([mainMenu]);
+    showUIElements([gameScreen])
     sceneChange = Date.now();
   })
 
   multiplayerButton.mousePressed(() => {
     ai = false;
     scene = SCENES[1];
-    hideUIElements([singleplayerButton, multiplayerButton]);
+    hideUIElements([mainMenu]);
+    showUIElements([gameScreen])
     sceneChange = Date.now();
   })
 
-  createCanvas(1000, 1000);
+  let canvas = createCanvas(500, 500);
+  canvas.parent("#canvas")
   background(220);
   drawBoard(board);
 }
