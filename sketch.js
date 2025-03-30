@@ -51,6 +51,7 @@ function drawBiggerX(b) {
 function drawBoard(board) {
   stroke('black');
   strokeWeight(5);
+
   for (let i = 0; i < 4; i++) {
     line(300 * i + 50, 50, 300 * i + 50, 950);
     line(50, 300 * i + 50, 950, 300 * i + 50);
@@ -91,8 +92,8 @@ function mousePressed() {
   if (scene != SCENES[1]) return;
   if (mouseX > 1000 || mouseY > 1000) return;
 
-  let xPos = Math.floor((mouseX - 50) / 100);
-  let yPos = Math.floor((mouseY - 50) / 100);
+  let xPos = Math.floor(((mouseX * 1.2) - 50) / 100);
+  let yPos = Math.floor(((mouseY * 1.2) - 50) / 100);
   let xPosDiv = Math.floor(xPos / 3);
   let yPosDiv = Math.floor(yPos / 3);
   let clickedBoard = xPosDiv + yPosDiv * 3;
@@ -124,6 +125,7 @@ function setup() {
   mainMenu = select("#main-menu");
   gameScreen = select("#game-screen");
 
+
   singleplayerButton.mousePressed(() => {
     ai = true;
     scene = SCENES[1];
@@ -140,14 +142,11 @@ function setup() {
     sceneChange = Date.now();
   })
 
-  let canvas = createCanvas(500, 500);
+  let canvas = createCanvas(1000 / (1.2), 1000 / (1.2));
   canvas.parent("#canvas")
   background(220);
+  scale(1 / 1.2)
   drawBoard(board);
-}
-
-function draw() {
-  
 }
 
 function hideUIElements(elements) {
