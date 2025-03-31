@@ -95,5 +95,5 @@ class Position {
             }
         }
         return this.legalMoves[Math.floor(Math.random() * this.legalMoves.length)];
-    }
+    } 
 };
