@@ -38,7 +38,6 @@ class Position {
     }
 
     move(x, y) {
-        console.log(this.subBoards);
         this.subBoards[x][y] = this.turn+1;
         
         if (this.checkWin(this.subBoards[x])) {
@@ -95,5 +94,31 @@ class Position {
             }
         }
         return this.legalMoves[Math.floor(Math.random() * this.legalMoves.length)];
+    }
+
+    restart() {
+        console.log("restarting");
+        this.mainBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        this.subBoards = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
+        this.turn = 1;
+
+        this.legalBoard = 9;
+        this.isOver = false;
+        this.legalMoves = [];
+        for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+                this.legalMoves.push([i, j]);
+            }
+        }
     } 
 };

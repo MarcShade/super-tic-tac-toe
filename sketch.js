@@ -110,11 +110,13 @@ function mousePressed() {
     board.move(coordinateX, coordinateY);
     background(220);
     if (ai) {
+      console.log("Getting the move")
       if (board.isOver) return;
       aiMove = board.getAiMove(board);
-      console.log(...aiMove);
+      // console.log(...aiMove);
       board.move(...aiMove);
     }
+    scale(1 / 1.2);
     drawBoard(board);
   }
 }
@@ -134,7 +136,13 @@ function setup() {
     hideUIElements([mainMenu]);
     showUIElements([gameScreen])
     sceneChange = Date.now();
-    isOver = false
+    board.isOver = false;
+
+    let canvas = createCanvas(1000 / (1.2), 1000 / (1.2));
+    canvas.parent("#canvas")
+    background(220);
+    scale(1 / 1.2);
+    drawBoard(board);
   })
 
   multiplayerButton.mousePressed(() => {
@@ -143,21 +151,32 @@ function setup() {
     hideUIElements([mainMenu]);
     showUIElements([gameScreen])
     sceneChange = Date.now();
-    isOver = false
+    board.isOver = false;
+
+    let canvas = createCanvas(1000 / (1.2), 1000 / (1.2));
+    canvas.parent("#canvas")
+    background(220);
+    scale(1 / 1.2);
+    drawBoard(board);
   })
 
   restartButton.mousePressed(() => {
     scene = SCENES[0];
     hideUIElements([endScreen]);
-    showUIElements([mainMenu])
+    showUIElements([mainMenu]);
     sceneChange = Date.now();
+    noCanvas();
   })
+}
 
-  let canvas = createCanvas(1000 / (1.2), 1000 / (1.2));
-  canvas.parent("#canvas")
-  background(220);
-  scale(1 / 1.2)
-  drawBoard(board);
+function draw() {
+  if (board.isOver && scene != SCENES[2]) {
+    console.log("Got here")
+    scene = SCENES[2];
+    board.restart();
+    showUIElements([endScreen]);
+    hideUIElements([gameScreen]);
+  }
 }
 
 function hideUIElements(elements) {
@@ -169,5 +188,11 @@ function hideUIElements(elements) {
 function showUIElements(elements) {
   for (const element of elements) {
     element.removeClass("hidden")
+  }
+}
+
+function keyPressed() {
+  if (key === 'r') {
+    board.isOver = true;
   }
 }
