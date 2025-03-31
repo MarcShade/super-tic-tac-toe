@@ -120,10 +120,12 @@ function mousePressed() {
 }
 
 function setup() {
-  singleplayerButton = select("#singleplayer");
-  multiplayerButton = select("#multiplayer");
+  singleplayerButton = select("#singleplayer-btn");
+  multiplayerButton = select("#multiplayer-btn");
+  restartButton = select("#restart-btn")
   mainMenu = select("#main-menu");
   gameScreen = select("#game-screen");
+  endScreen = select("#end-container")
 
 
   singleplayerButton.mousePressed(() => {
@@ -132,6 +134,7 @@ function setup() {
     hideUIElements([mainMenu]);
     showUIElements([gameScreen])
     sceneChange = Date.now();
+    isOver = false
   })
 
   multiplayerButton.mousePressed(() => {
@@ -139,6 +142,14 @@ function setup() {
     scene = SCENES[1];
     hideUIElements([mainMenu]);
     showUIElements([gameScreen])
+    sceneChange = Date.now();
+    isOver = false
+  })
+
+  restartButton.mousePressed(() => {
+    scene = SCENES[0];
+    hideUIElements([endScreen]);
+    showUIElements([mainMenu])
     sceneChange = Date.now();
   })
 
@@ -151,12 +162,12 @@ function setup() {
 
 function hideUIElements(elements) {
   for (const element of elements) {
-    element.hide();
+    element.addClass("hidden")
   }
 }
 
 function showUIElements(elements) {
   for (const element of elements) {
-    element.show();
+    element.removeClass("hidden")
   }
 }

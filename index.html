@@ -17,12 +17,17 @@
     <script src="sketch.js"></script>
     <main>
       <div id="main-menu">
-        <button class="player-button" id="singleplayer">Singleplayer</button>
-        <button class="player-button" id="multiplayer">Multiplayer</button>
+        <button class="gamemode-button" id="singleplayer-btn">Singleplayer</button>
+        <button class="gamemode-button" id="multiplayer-btn">Multiplayer</button>
       </div>
-      <div id="game-screen" hidden>
+      <div id="game-screen" class="hidden">
         <div id="canvas">
           <!-- Canvas (the game) goes here -->
+        </div>
+      </div>
+      <div id="end-screen">
+        <div id="end-container" class="hidden">
+          <button id="restart-btn">Play again?</button> 
         </div>
       </div>
     </main>
