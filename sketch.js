@@ -173,8 +173,12 @@ function draw() {
   if (board.isOver && scene != SCENES[2]) {
     console.log("Got kdhjkashjadshhadshashjk")
     scene = SCENES[2];
-    if(board.turn == 0) gameResultText.innerHTML = "X wins the game"
-    else gameResultText.innerHTML = "O wins the game"
+    if (board.isDraw) {
+      gameResultText.innerHTML = "Draw"
+    } else {
+      if(board.turn == 0) gameResultText.innerHTML = "X wins the game"
+      else gameResultText.innerHTML = "O wins the game"
+    }
     board.restart();
     showUIElements([endScreen]);
     hideUIElements([gameScreen]);

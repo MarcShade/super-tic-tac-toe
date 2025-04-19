@@ -63,6 +63,11 @@ class Position {
                 }
             }
         }
+        if (this.legalMoves.length == 0) {
+            console.log("das right")
+            this.isDraw = true;
+            this.isOver = true;
+        }
     }
 
     checkWin(board) {
@@ -81,11 +86,11 @@ class Position {
         if (this.checkWin(this.mainBoard)) {
             this.isOver = true;
             this.legalBoard = 9;
-            console.log(this.turn + " won");
         }
     }
 
     getAiMove() {
+        // TODO: If the AI can place anywhere it wants to, it wont do it. It only wants to make its move on the same tile as there has just been placed on... fix!!!
         for (const move of this.legalMoves) {
             for (let i = 1; i <= 2; i++) {
                 // Check if someone can win on a certain square. If yes, make that move
