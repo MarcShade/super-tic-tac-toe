@@ -27,6 +27,7 @@ class Position {
         ];
         this.turn = 1;
 
+        this.isDraw = false;
         this.legalBoard = 9;
         this.isOver = false;
         this.legalMoves = [];

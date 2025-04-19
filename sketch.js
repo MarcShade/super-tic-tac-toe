@@ -128,7 +128,7 @@ function setup() {
   mainMenu = select("#main-menu");
   gameScreen = select("#game-screen");
   endScreen = select("#end-container")
-
+  gameResultText = document.getElementById("game-result-txt");
 
   singleplayerButton.mousePressed(() => {
     ai = true;
@@ -171,8 +171,10 @@ function setup() {
 
 function draw() {
   if (board.isOver && scene != SCENES[2]) {
-    console.log("Got here")
+    console.log("Got kdhjkashjadshhadshashjk")
     scene = SCENES[2];
+    if(board.turn == 0) gameResultText.innerHTML = "X wins the game"
+    else gameResultText.innerHTML = "O wins the game"
     board.restart();
     showUIElements([endScreen]);
     hideUIElements([gameScreen]);
@@ -191,8 +193,9 @@ function showUIElements(elements) {
   }
 }
 
-function keyPressed() {
-  if (key === 'r') {
-    board.isOver = true;
-  }
-}
+// function keyPressed() {
+//   if (key === 'r') {
+//     gameResultText.innerHTML = "test"
+//     board.isOver = true;
+//   }
+// }
