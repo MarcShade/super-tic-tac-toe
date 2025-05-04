@@ -136,6 +136,9 @@ function mousePressed() {
 }
 
 function setup() {
+  // Removing the default canvas for convenience
+  noCanvas();
+
   // Setting up interactibles and text
   singleplayerButton = select("#singleplayer-btn");
   multiplayerButton = select("#multiplayer-btn");
@@ -144,6 +147,7 @@ function setup() {
   gameScreen = select("#game-screen");
   endScreen = select("#end-container");
   gameResultText = document.getElementById("game-result-txt");
+  titleText = document.getElementById("title-txt");
 
   singleplayerButton.mousePressed(() => {
     ai = true;
