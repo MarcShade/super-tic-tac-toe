@@ -3,7 +3,9 @@ const board = new Position();
 // Scenes to keep track of where the program is
 const SCENES = ["main", "game", "restart"];
 
-let singleplayerButton; let multiplayerButton;
+// Setting up variables
+let singleplayerButton;
+let multiplayerButton;
 
 let scene = SCENES[0];
 
@@ -11,9 +13,12 @@ let ai;
 let sceneChange;
 let aiMove;
 
-let mainMenu; let gameScreen;
+let mainMenu;
+let gameScreen;
 
-// General function that checks if something is contained within an array
+let endTimer;
+
+// General function that checks if something is contained within an array. Works no matter what is in the array.
 function includes(arr, values) {
   for (element of arr) {
     if (element.toString() == values.toString()) return true;
@@ -193,8 +198,16 @@ function setup() {
 }
 
 function draw() {
-  // If the game is over, but the endscreen isn't loaded
+  // Setup the delay
+  if (board.isOver && endTimer === undefined) {
+    endTimer = Date.now();
+  }
+  // If the game is over, but the endscreen isn't loadedm load it and display who won.
   if (board.isOver && scene != SCENES[2]) {
+    console.log(Date.now() - endTimer);
+    // Delay so one can see the result of the game.
+    if (Date.now() - endTimer < 3000 ) return;
+    
     scene = SCENES[2];
     if (board.isDraw) {
       gameResultText.innerHTML = "Draw";
