@@ -137,7 +137,7 @@ function mousePressed() {
 
 function setup() {
   // Removing the default canvas for convenience
-  noCanvas();
+  let canvas = createCanvas(0, 0);
 
   // Setting up interactibles and text
   singleplayerButton = select("#singleplayer-btn");
@@ -150,33 +150,37 @@ function setup() {
   titleText = document.getElementById("title-txt");
 
   singleplayerButton.mousePressed(() => {
+    hideUIElements([mainMenu]);
+    
     ai = true;
     scene = SCENES[1];
-    hideUIElements([mainMenu]);
-    showUIElements([gameScreen]);
     sceneChange = Date.now();
     board.isOver = false;
 
-    let canvas = createCanvas(1000 / (1.2), 1000 / (1.2));
+    resizeCanvas(1000 / (1.2), 1000 / (1.2));
     canvas.parent("#canvas");
     background(220);
     scale(1 / 1.2);
     drawBoard(board);
+
+    showUIElements([gameScreen]);
   })
 
   multiplayerButton.mousePressed(() => {
+    hideUIElements([mainMenu]);
+    
     ai = false;
     scene = SCENES[1];
-    hideUIElements([mainMenu]);
-    showUIElements([gameScreen]);
     sceneChange = Date.now();
     board.isOver = false;
 
-    let canvas = createCanvas(1000 / (1.2), 1000 / (1.2));
+    createCanvas(1000 / (1.2), 1000 / (1.2));
     canvas.parent("#canvas");
-    background(220);
+    background(220);  
     scale(1 / 1.2);
     drawBoard(board);
+
+    showUIElements([gameScreen]);
   })
 
   restartButton.mousePressed(() => {
